@@ -1,0 +1,39 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #f4f6fb;
+  color: #1d2330;
+}
+header { background: #2b4c9b; color: #fff; padding: 1.2rem 1.5rem; }
+header h1 { margin: 0; font-size: 1.6rem; }
+header .sub { margin: .3rem 0 0; opacity: .9; }
+main { max-width: 960px; margin: 1.2rem auto; padding: 0 1rem; }
+.card { background: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.card h2 { margin-top: 0; font-size: 1.15rem; color: #2b4c9b; }
+label { display: flex; flex-direction: column; gap: .3rem; font-size: .9rem; font-weight: 600; }
+label.inline { flex-direction: row; align-items: center; gap: .5rem; }
+input[type=text], input[type=password], input[type=number], select {
+  padding: .45rem .6rem; border: 1px solid #c5ccdb; border-radius: 6px; font-size: .95rem; font-weight: 400;
+}
+input[type=number] { width: 6rem; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .8rem; margin: .6rem 0; }
+.row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .6rem 0; }
+details summary { cursor: pointer; font-weight: 600; margin: .4rem 0; }
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: .4rem .8rem; }
+.cats label { flex-direction: row; align-items: center; font-weight: 400; gap: .5rem; }
+.cats .count { margin-left: auto; color: #2b4c9b; font-weight: 600; font-size: .85rem; }
+.hint { color: #5a6378; font-size: .85rem; margin: .3rem 0; }
+button {
+  background: #2b4c9b; color: #fff; border: 0; border-radius: 6px; padding: .55rem 1rem;
+  font-size: .95rem; cursor: pointer;
+}
+button.secondary { background: #e7ecf7; color: #2b4c9b; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.log { background: #0f172a; color: #d1e7ff; padding: .7rem; border-radius: 6px; min-height: 2.5rem; max-height: 220px; overflow: auto; white-space: pre-wrap; font-size: .85rem; }
+.tabs { display: flex; gap: .4rem; margin-bottom: .5rem; }
+.tab.active { background: #2b4c9b; color: #fff; }
+.tab { background: #e7ecf7; color: #2b4c9b; }
+#preview { width: 100%; height: 600px; border: 1px solid #c5ccdb; border-radius: 6px; background: #fff; }
+footer { text-align: center; font-size: .8rem; color: #5a6378; padding: 1rem; }
+

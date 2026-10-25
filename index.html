@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 8 Algebra Question Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Year 8 Algebra Question Generator</h1>
+    <p class="sub">Generate fresh algebra practice questions (with fully worked answers) using the Groq LLM.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Settings</h2>
+      <div class="grid2">
+        <label>Groq API key
+          <input type="password" id="groqKey" placeholder="gsk_..." autocomplete="off">
+        </label>
+        <label>Groq model
+          <select id="model">
+            <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (recommended)</option>
+            <option value="openai/gpt-oss-120b">openai/gpt-oss-120b</option>
+            <option value="openai/gpt-oss-20b">openai/gpt-oss-20b</option>
+            <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (fast)</option>
+          </select>
+        </label>
+      </div>
+      <details>
+        <summary>GitHub publishing (optional)</summary>
+        <div class="grid2">
+          <label>GitHub token (fine-grained, Contents: read &amp; write)
+            <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off">
+          </label>
+          <label>Repository (owner/name)
+            <input type="text" id="ghRepo" value="tryaiagent/tryaiagent.github.io">
+          </label>
+          <label>Branch
+            <input type="text" id="ghBranch" value="main">
+          </label>
+          <label>Folder
+            <input type="text" id="ghFolder" value="worksheets">
+          </label>
+        </div>
+      </details>
+      <div class="row">
+        <label class="inline"><input type="checkbox" id="remember" checked> Remember keys in this browser</label>
+        <button type="button" id="forgetBtn" class="secondary">Forget saved keys</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Questions</h2>
+      <label class="inline">Total number of questions
+        <input type="number" id="total" min="1" max="100" value="22">
+      </label>
+      <p class="hint" id="distHint"></p>
+      <div class="row">
+        <button type="button" id="selectAll" class="secondary">Select all</button>
+        <button type="button" id="selectNone" class="secondary">Select none</button>
+      </div>
+      <div id="categories" class="cats"></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Generate</h2>
+      <div class="row">
+        <button type="button" id="generateBtn">Generate questions</button>
+        <button type="button" id="dlQuestions" class="secondary" disabled>Download questions.html</button>
+        <button type="button" id="dlAnswers" class="secondary" disabled>Download answers.html</button>
+        <button type="button" id="pushBtn" class="secondary" disabled>Push to GitHub</button>
+      </div>
+      <pre id="log" class="log" aria-live="polite"></pre>
+    </section>
+
+    <section class="card" id="previewCard" hidden>
+      <h2>Preview</h2>
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="q">Questions</button>
+        <button type="button" class="tab" data-tab="a">Answers</button>
+      </div>
+      <iframe id="preview" title="Preview"></iframe>
+    </section>
+  </main>
+
+  <footer>
+    <p>Keys are stored only in this browser (localStorage) and sent only to api.groq.com and api.github.com. AI-generated answers may contain mistakes &mdash; please check them.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
