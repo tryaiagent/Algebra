@@ -230,19 +230,6 @@ async function groqGenerate(apiKey, model, cat, count, log) {
   throw lastErr;
 }
 
-async function runPool(tasks, limit) {
-  const results = new Array(tasks.length);
-  let next = 0;
-  async function worker() {
-    while (next < tasks.length) {
-      const i = next++;
-      results[i] = await tasks[i]();
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, tasks.length) }, worker));
-  return results;
-}
-
 async function gh(token, method, url, body) {
   const res = await fetch(`https://api.github.com${url}`, {
     method,
@@ -344,7 +331,11 @@ function initUI() {
     } catch { /* ignore corrupt settings */ }
   }
 
-  const log = msg => { els.log.textContent += msg + '\n'; els.log.scrollTop = els.log.scrollHeight; };
+  const log = msg => {
+    const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    els.log.textContent += `[${time}] ${msg}\n`;
+    els.log.scrollTop = els.log.scrollHeight;
+  };
 
   function showPreview() {
     els.previewCard.hidden = false;
@@ -380,19 +371,19 @@ function initUI() {
     log(`Generating ${total} question(s) across ${cats.length} topic(s) with ${els.model.value}…`);
 
     try {
-      const results = await runPool(cats.map(cat => async () => {
+      const sections = [];
+      for (const [i, cat] of cats.entries()) {
+        log(`(${i + 1}/${cats.length}) ${cat.name}…`);
         try {
           const questions = await groqGenerate(key, els.model.value, cat, dist[cat.id], log);
           log(`✓ ${cat.name}: ${questions.length}`);
-          return { category: cat, questions };
+          sections.push({ category: cat, questions });
         } catch (e) {
           if (e.fatal) throw e;
           log(`✗ ${cat.name}: ${e.message}`);
-          return null;
         }
-      }), 3);
+      }
 
-      const sections = results.filter(Boolean);
       if (!sections.length) throw new Error('No questions were generated.');
       const now = new Date();
       const dateLabel = now.toLocaleString('en-GB', { dateStyle: 'long', timeStyle: 'short' });
@@ -466,7 +457,7 @@ if (typeof module !== 'undefined') {
   module.exports = {
     CATEGORIES, distribute, sanitizeJson, parseQuestions, buildPrompt, buildQuestionsHtml,
     buildAnswersHtml, buildIndexHtml, folderStamp, uniqueId, utf8ToBase64, base64ToUtf8, escapeHtml,
-    groqGenerate, pushToGitHub, runPool
+    groqGenerate, pushToGitHub
   };
 }
 
